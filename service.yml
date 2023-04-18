@@ -1,0 +1,46 @@
+#deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-deployment
+  labels:
+    app: reactapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reactsapp
+      tier: frontend
+      version: 1.0.0
+#pod tempalte
+  template:
+    metadata:
+      labels:
+        app: reactsapp
+        tier: frontend
+        version: 1.0.0
+    spec: # Pod spec
+      containers:
+      - name: react-container
+        image: ooghenekaro/cohort-car:v1.0.0
+        ports:
+        - containerPort: 3000
+
+
+SERVICE
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-service
+  namespace: dev
+  labels:
+    app: reactapp
+spec:
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort:3000
+  selector:
+    app: reactapp
+    tier: frontend
